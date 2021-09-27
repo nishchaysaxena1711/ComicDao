@@ -15,9 +15,9 @@ contract ComicDao is Ownable, DaoManager {
 
     mapping(address => bool) public writers;
     mapping(address => bool) public artists;
-    string[] public ideas;
     mapping(uint => string) public sketchOfAnIdea;
     mapping(string => string) public drawingOfAnSketch;
+    string[] public ideas;
     uint completedDrawings;
 
     Comic private coin;
@@ -84,7 +84,8 @@ contract ComicDao is Ownable, DaoManager {
 
     function contribute() external payable {
         require(msg.value > 0, "Contribution should be > 0");
-        uint coinsToMint = msg.value - (sqrt(completedDrawings + 1) / msg.value); // More completed drawings - less rewards
+        // reverse cashback feature of e-shopping sites -> The more shopping, more will be rewards
+        uint coinsToMint = msg.value - (sqrt(completedDrawings + 1) / msg.value);
         coin.mint(msg.sender, coinsToMint);
     }
 

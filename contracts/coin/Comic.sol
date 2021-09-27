@@ -12,7 +12,10 @@ contract Comic is Ownable, ERC20 {
     string constant TOKEN_NAME = 'Comic';
     string constant TOKEN_SYMBOL = 'COM';
 
-    constructor() ERC20(TOKEN_NAME, TOKEN_SYMBOL) {}
+    constructor(address _owner) ERC20(TOKEN_NAME, TOKEN_SYMBOL) {
+        require(_owner != address(0), 'Invalid Address');
+        transferOwnership(_owner);
+    }
 
     function mint(address _to, uint256 _amount) external onlyOwner {
         super._mint(_to, _amount);
