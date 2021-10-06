@@ -9,7 +9,7 @@ contract Comic is Ownable, ERC20 {
     event ComicMint(address to, uint amount);
     event ComicBurn(address from, uint amount);
 
-    string constant TOKEN_NAME = 'Comic';
+    string constant TOKEN_NAME = 'COMIC_DAO';
     string constant TOKEN_SYMBOL = 'COM';
 
     constructor(address _owner) ERC20(TOKEN_NAME, TOKEN_SYMBOL) {

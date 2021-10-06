@@ -28,7 +28,7 @@ contract ComicDao is Ownable, DaoManager {
         _;
     }
 
-    function setCoinAddress(address _coin) external {
+    function setCoinAddress(address _coin) external onlyOwner {
         require(_coin != address(0), 'Coin address cannot be zero address');
         coin = Comic(_coin);
     }
@@ -106,11 +106,11 @@ contract ComicDao is Ownable, DaoManager {
     }
     
     function getProposableType(string memory _proposalFunctionName) pure internal override returns (string memory _type) {
-        if (keccak256(abi.encodePacked(_proposalFunctionName)) == keccak256("addIdeas")) {
-            _type = "string";
-        } else if ((keccak256(abi.encodePacked(_proposalFunctionName)) == keccak256("addOrRemoveArtist")) || 
-            (keccak256(abi.encodePacked(_proposalFunctionName)) == keccak256("addOrRemoveWriter"))) {
+        bytes32 encodedValue = keccak256(abi.encodePacked(_proposalFunctionName));
+        if ((encodedValue == keccak256("addOrRemoveArtist")) || (encodedValue == keccak256("addOrRemoveWriter"))) {
             _type = "address";
+        } else if (encodedValue == keccak256("addIdeas")) {
+            _type = "string";
         }
 
         return _type;
@@ -118,5 +118,9 @@ contract ComicDao is Ownable, DaoManager {
 
     function getGovernor() public view override returns (IGovernor) {
         return governor;
+    }
+
+    fallback() external payable {
+        revert("Please usec ontribute function");
     }
 }
