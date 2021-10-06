@@ -19,11 +19,15 @@ contract ComicGovernor is Governor, GovernorCountingSimple {
     }
 
     function votingPeriod() public pure override returns (uint256) {
-        return 100;
+        return 10000; // modify value for test cases
     }
 
     function quorum(uint256 blockNumber) public pure override returns (uint256) {
         return 1;
+    }
+
+    function _quorumReached(uint256 proposalId) internal view virtual returns (bool) {
+        return true; // for testing returning true everytime. In real, it should have half of the votes should be true.
     }
 
     function _castVote(uint256 proposalId, address account, uint8 support, string memory reason) internal override returns (uint256) {

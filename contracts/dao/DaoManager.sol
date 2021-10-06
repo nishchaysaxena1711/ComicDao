@@ -5,10 +5,6 @@ import "@openzeppelin/contracts/governance/IGovernor.sol";
 
 abstract contract DaoManager {
 
-    function setGovernor(address _governorAddress) external virtual;
-    function getGovernor() public view virtual returns (IGovernor);
-    function getProposableType(string memory _proposalFunctionName) pure internal virtual returns (string memory _type);
-
     modifier requireGovernor(){
         require(address(getGovernor()) != address(0), "Governor address is not set");
         _;
@@ -23,6 +19,12 @@ abstract contract DaoManager {
             addr := mload(add(_bys,20))
         } 
     }
+
+    function setGovernor(address _governorAddress) external virtual;
+
+    function getGovernor() public view virtual returns (IGovernor);
+
+    function getProposableType(string memory _proposalFunctionName) pure internal virtual returns (string memory _type);
 
     function generateTargets() internal view returns (address[] memory) {
         address[] memory targets = new address[](1);
